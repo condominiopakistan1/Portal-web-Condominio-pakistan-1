@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login con Firebase</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+    }
+    input {
+      width: 100%;
+      padding: 0.7rem;
+      margin: 0.5rem 0;
+    }
+    button {
+      padding: 0.7rem;
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      margin-top: 1rem;
+      cursor: pointer;
+    }
+    .error {
+      color: red;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Iniciar sesión</h2>
+    <input type="email" id="email" placeholder="Correo electrónico" required />
+    <input type="password" id="password" placeholder="Contraseña" required />
+    <button onclick="login()">Ingresar</button>
+    <p class="error" id="error-message"></p>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script type="module">
+    // Importa los módulos desde Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    // ✅ Reemplaza con tu configuración de Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCBMZimC3DoFQ7XPngFPeYo7vUNyHy1sFQ",
+      authDomain: "login-b61a6.firebaseapp.com",
+      projectId: "login-b61a6",
+      storageBucket: "login-b61a6.firebasestorage.app",
+      messagingSenderId: "935713434560",
+      appId: "1:935713434560:web:5544bbe205290ebf557625"
+    };
+
+    // Inicializa Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Función de login
+    window.login = function() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const errorDiv = document.getElementById("error-message");
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log("Login exitoso:", user.email);
+          errorDiv.textContent = "";
+          alert("Bienvenido " + user.email);
+           window.location.href = "https://sites.google.com/view/condominiopakistan1etapa/pagina-de-inicio";
+        })
+        .catch((error) => {
+          console.error("Error de login:", error.message);
+          errorDiv.textContent = "Error: " + error.message;
+        });
+    }
+  </script>
+</body>
+</html>
